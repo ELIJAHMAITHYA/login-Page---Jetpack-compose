@@ -3,13 +3,16 @@ package com.example.loginpage
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
@@ -19,10 +22,13 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -62,6 +68,7 @@ class MainActivity : ComponentActivity() {
 fun login() {
     Column(
         modifier = Modifier
+            .navigationBarsPadding()
             .fillMaxSize()
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -120,8 +127,32 @@ fun TextInput(inputType: InputType) {
     var value: String by remember {
         mutableStateOf("")
     }
-    TextField(value = value, onValueChange = {
-        value = it
-    })
+    TextField(
+        value = value,
+        onValueChange = {
+            value = it
+        },
+        modifier = Modifier
+            .fillMaxWidth(),
+        //background(color = Color.Cyan),
+        leadingIcon = {
+            Icon(imageVector = inputType.icon, contentDescription = null)
+        },
+        label = {
+            Text(text = inputType.label)
+        },
+        colors = TextFieldDefaults.textFieldColors(
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+            // backgroundColor= Color.White
+        ),
+        singleLine = true,
+        keyboardOptions = inputType.KeyboardOptions,
+        visualTransformation = inputType.visualTransformation,
+        keyboardActions = KeyboardActions()
+
+
+    )
 
 }
