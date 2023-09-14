@@ -1,6 +1,12 @@
 package com.example.loginpage
 
+import android.app.Notification
+import android.content.Context
+import android.media.browse.MediaBrowser
+import android.net.Uri
 import android.os.Bundle
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.widget.FrameLayout
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -36,6 +42,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusOrder
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
@@ -45,7 +52,11 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
 import com.example.loginpage.ui.theme.LoginPageTheme
+import com.example.loginpage.ui.theme.Shapes
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,15 +68,36 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    login()
+                    login(getVideoUri())
                 }
             }
         }
     }
+
+    private fun getVideoUri(): Uri {
+        val rawId: Int = resources.getIdentifier("app_src_main_res_raw_lake", "raw", packageName)
+        val videoUri = "android.resource://$packageName/$rawId"
+        return Uri.parse(videoUri)
+    }
 }
+    private fun Context.buildExoPlayer(uri: Uri) =
+        ExoPlayer.Builder(this).build().apply {
+            setMediaItem(MediaItem.fromUri(uri))
+            repeatMode = Player.REPEAT_MODE_ALL
+            playWhenReady = true
+            prepare()
+        }
+
+//private fun Context.buildPlayerView(exoPlayer: ExoPlayer) =
+//    StyledPlayerView(this).apply {
+//        player = exoPlayer
+//        layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+//        useController = false
+//        resizeMode = RESIZE_MODE_ZOOM
+//    }
 
 @Composable
-fun login() {
+fun login(videoUri: Uri) {
     Column(
         modifier = Modifier
             .navigationBarsPadding()
@@ -138,6 +170,7 @@ fun TextInput(inputType: InputType) {
         leadingIcon = {
             Icon(imageVector = inputType.icon, contentDescription = null)
         },
+        shape = Shapes.medium,
         label = {
             Text(text = inputType.label)
         },
@@ -145,6 +178,7 @@ fun TextInput(inputType: InputType) {
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
+            containerColor = Color.White
             // backgroundColor= Color.White
         ),
         singleLine = true,
