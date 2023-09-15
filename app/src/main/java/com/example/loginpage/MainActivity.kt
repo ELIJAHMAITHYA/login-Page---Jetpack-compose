@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,6 +30,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -111,6 +113,7 @@ private fun Context.buildExoPlayer(uri: Uri) =
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun login(videoUri: Uri) {
+
     Scaffold() {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -149,49 +152,65 @@ fun login(videoUri: Uri) {
                     Text(text = "Welcome", fontSize = 20.sp, color = Color.White)
                 }
             }
-        }
 
-    }
-    Column(
-        modifier = Modifier
-            .navigationBarsPadding()
-            .fillMaxSize()
-            .background(brush = Brush.linearGradient(listOf(Color(0xFFB7BA2), Color(0xffCE043))))
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Bottom)
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.android_svgrepo_com__1_),
-            contentDescription = null,
-            Modifier.size(80.dp),
-            tint = Color.White
-        )
-        TextInput(InputType.Name)
-        TextInput(InputType.Password)
-        Button(onClick = { }, modifier = Modifier.fillMaxWidth()) {
-            Text(text = "SIGN IN", Modifier.padding(vertical = 8.dp))
-        }
-        Divider(
-            color = Color.White.copy(alpha = 0.5f),
-            thickness = 2.dp,
-            modifier = Modifier.padding(top = 48.dp)
-        )
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(text = "Don't have an account ?", color = Color.White)
-            TextButton(onClick = {}) {
-                Text(text = "SIGN UP")
+            Column(
+                modifier = Modifier
+                    .navigationBarsPadding()
+                    .fillMaxSize()
+                    .fillMaxWidth()
+                    .padding(horizontal = 40.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Bottom)
+            ) {
+                TextInput(InputType.Name)
+                TextInput(InputType.Password)
+                rememberMe()
+                Button(onClick = { }, modifier = Modifier.fillMaxWidth()) {
+                    Text(text = "Log In", Modifier.padding(vertical = 8.dp))
+                }
+                Divider(
+                    color = Color.White.copy(alpha = 0.5f),
+                    thickness = 2.dp,
+                    //modifier = Modifier.padding(top = 48.dp)
+                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(text = "Don't have an account ?", color = Color.White)
+                    TextButton(onClick = {}) {
+                        Text(text = "SIGN UP")
+                    }
+                }
             }
         }
     }
 }
+@Composable
+fun rememberMe(){
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        Arrangement.SpaceBetween
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Checkbox(checked = true , onCheckedChange = {})
+            Text(text = "Remember Me", fontSize = 12.sp)
+        }
+        TextButton(onClick = {  }) {
+            Text(text = "Forgot Password", fontSize = 12.sp)
+        }
+    }
+}
+
 
 sealed class InputType(
     val label: String,
     val icon: ImageVector,
+
     val KeyboardOptions: KeyboardOptions,
     val visualTransformation: VisualTransformation
 ) {
+
+
     object Name : InputType(
         label = "UserName",
         icon = Icons.Default.Person,
@@ -245,3 +264,4 @@ fun TextInput(inputType: InputType) {
     )
 
 }
+
