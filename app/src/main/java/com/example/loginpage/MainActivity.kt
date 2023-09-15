@@ -168,23 +168,21 @@ fun login(videoUri: Uri) {
                 Button(onClick = { }, modifier = Modifier.fillMaxWidth()) {
                     Text(text = "Log In", Modifier.padding(vertical = 8.dp))
                 }
-                Divider(
-                    color = Color.White.copy(alpha = 0.5f),
-                    thickness = 2.dp,
-                    //modifier = Modifier.padding(top = 48.dp)
-                )
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(text = "Don't have an account ?", color = Color.White)
-                    TextButton(onClick = {}) {
-                        Text(text = "SIGN UP")
-                    }
-                }
+
+                autologin()
+//                Row(verticalAlignment = Alignment.CenterVertically) {
+//                    Text(text = "Don't have an account ?", color = Color.White)
+//                    TextButton(onClick = {}) {
+//                        Text(text = "SIGN UP")
+//                    }
+//                }
             }
         }
     }
 }
+
 @Composable
-fun rememberMe(){
+fun rememberMe() {
     Row(
         modifier = Modifier.fillMaxWidth(),
         Arrangement.SpaceBetween
@@ -192,10 +190,10 @@ fun rememberMe(){
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Checkbox(checked = true , onCheckedChange = {})
+            Checkbox(checked = true, onCheckedChange = {})
             Text(text = "Remember Me", fontSize = 12.sp)
         }
-        TextButton(onClick = {  }) {
+        TextButton(onClick = { }) {
             Text(text = "Forgot Password", fontSize = 12.sp)
         }
     }
