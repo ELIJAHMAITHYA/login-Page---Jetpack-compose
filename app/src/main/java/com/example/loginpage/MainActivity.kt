@@ -10,6 +10,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -29,6 +30,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Divider
@@ -68,9 +70,11 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import com.example.loginpage.ui.theme.LoginPageTheme
+import com.example.loginpage.ui.theme.MainViewModel
 import com.example.loginpage.ui.theme.Shapes
 
 class MainActivity : ComponentActivity() {
+    private val viewModel by viewModels<MainViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -80,7 +84,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    login(getVideoUri())
+                   login(getVideoUri())
                 }
             }
         }
@@ -100,14 +104,6 @@ private fun Context.buildExoPlayer(uri: Uri) =
         playWhenReady = true
         prepare()
     }
-
-//private fun Context.buildPlayerView(exoPlayer: ExoPlayer) =
-//    StyledPlayerView(this).apply {
-//        player = exoPlayer
-//        layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
-//        useController = false
-//        resizeMode = RESIZE_MODE_ZOOM
-//    }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -170,12 +166,13 @@ fun login(videoUri: Uri) {
                 }
 
                 autologin()
-//                Row(verticalAlignment = Alignment.CenterVertically) {
-//                    Text(text = "Don't have an account ?", color = Color.White)
-//                    TextButton(onClick = {}) {
-//                        Text(text = "SIGN UP")
-//                    }
-//                }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(text = "Don't have an account ?", color = Color.White)
+                    TextButton(onClick = {
+                    }) {
+                        Text(text = "SIGN UP")
+                    }
+                }
             }
         }
     }
